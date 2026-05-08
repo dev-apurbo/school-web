@@ -1,7 +1,7 @@
 // State Management
 let notices = [];
 let editingNoticeId = null;
-const API_URL = 'http://localhost:3000/api/notices';
+const API_URL = '/api/notices';
 
 // DOM Elements
 const noticeContainer = document.getElementById('notice-container');

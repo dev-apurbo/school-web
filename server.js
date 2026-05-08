@@ -10,6 +10,7 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname))); // Serve static files (HTML, CSS, JS)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Ensure uploads directory exists
@@ -59,7 +60,7 @@ app.post('/api/notices', upload.single('pdf'), (req, res) => {
         id: Date.now(),
         title,
         date,
-        fileUrl: `http://localhost:${PORT}/uploads/${file.filename}`,
+        fileUrl: `/uploads/${file.filename}`,
         filename: file.filename
     };
 
@@ -85,7 +86,7 @@ app.put('/api/notices/:id', upload.single('pdf'), (req, res) => {
         if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
         
         notices[noticeIndex].filename = req.file.filename;
-        notices[noticeIndex].fileUrl = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+        notices[noticeIndex].fileUrl = `/uploads/${req.file.filename}`;
     }
 
     saveNotices();
@@ -122,3 +123,5 @@ app.delete('/api/notices', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
+
+module.exports = app;
