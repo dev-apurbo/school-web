@@ -1,0 +1,13 @@
+services:
+  school-web:
+    build: .
+    container_name: school-web-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./notices.json:/app/notices.json
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=3000

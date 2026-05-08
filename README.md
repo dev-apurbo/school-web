@@ -72,6 +72,22 @@ A modern, responsive, and functional school website built with a focus on aesthe
    http://localhost:3000
    ```
 
+### Running with Docker (Recommended for Persistence)
+
+Docker is the recommended way to deploy this application because it allows for persistent storage of uploaded PDFs and notice data.
+
+1. Build and start the container:
+   ```bash
+   docker-compose up -d --build
+   ```
+
+2. The application will be available at `http://localhost:3000`.
+
+3. To stop the application:
+   ```bash
+   docker-compose down
+   ```
+
 ### Teacher Portal Credentials (Demo)
 - **Username**: `admin`
 - **Password**: `admin`
