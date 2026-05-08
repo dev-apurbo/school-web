@@ -113,16 +113,25 @@ function checkAuth() {
     }
 }
 
-loginForm.addEventListener('submit', (e) => {
+loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const user = document.getElementById('username').value;
     const pass = document.getElementById('password').value;
 
-    if (user === 'teacher' && pass === 'teacher123') {
-        sessionStorage.setItem('teacher_session', 'true');
-        checkAuth();
-    } else {
-        alert('Invalid credentials! Use admin / admin');
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pass })
+        });
+
+        if (response.ok) {
+            sessionStorage.setItem('teacher_session', 'true');
+            checkAuth();
+        } else {
+            alert('Invalid credentials!');
+        }
+    } catch (err) {
+        alert('Login failed. Please try again.');
     }
 });
 

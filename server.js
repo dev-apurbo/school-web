@@ -43,6 +43,17 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // API Endpoints
+app.post('/api/login', (req, res) => {
+    const { password } = req.body;
+    const correctPassword = process.env.TEACHER_PASSWORD || 'teacher123';
+
+    if (password === correctPassword) {
+        res.json({ success: true });
+    } else {
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+});
+
 app.get('/api/notices', (req, res) => {
     res.json(notices);
 });
