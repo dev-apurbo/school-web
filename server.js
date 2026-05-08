@@ -29,7 +29,13 @@ if (fs.existsSync(DATA_FILE)) {
 }
 
 function saveNotices() {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(notices, null, 2));
+    try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(notices, null, 2));
+    } catch (err) {
+        console.error('Warning: Could not save notices.json (likely due to read-only filesystem on Vercel):', err.message);
+        // On Vercel, we can't save to notices.json. 
+        // This is where a database like Vercel KV or Postgres should be used.
+    }
 }
 
 // Multer Setup for File Uploads (Using Memory Storage for Vercel Blob)
@@ -68,7 +74,11 @@ app.post('/api/notices', upload.single('pdf'), async (req, res) => {
         res.status(201).json(newNotice);
     } catch (error) {
         console.error('Blob upload error:', error);
-        res.status(500).json({ error: 'Failed to upload PDF to blob storage' });
+        res.status(500).json({ 
+            error: 'Failed to upload PDF', 
+            details: error.message,
+            suggestion: error.message.includes('BLOB_READ_WRITE_TOKEN') ? 'Check if BLOB_READ_WRITE_TOKEN is set in Vercel environment variables.' : null
+        });
     }
 });
 

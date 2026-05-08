@@ -48,7 +48,7 @@ async function fetchNotices() {
 function renderNotices() {
     noticeContainer.innerHTML = '';
     const isLoggedIn = !!sessionStorage.getItem('teacher_session');
-    
+
     // Sort by date descending
     const sortedNotices = [...notices].sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -118,7 +118,7 @@ loginForm.addEventListener('submit', (e) => {
     const user = document.getElementById('username').value;
     const pass = document.getElementById('password').value;
 
-    if (user === 'admin' && pass === 'admin') {
+    if (user === 'teacher' && pass === 'teacher123') {
         sessionStorage.setItem('teacher_session', 'true');
         checkAuth();
     } else {
@@ -141,7 +141,7 @@ fileInput.addEventListener('change', (e) => {
 
 uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const title = document.getElementById('notice-title').value;
     const date = document.getElementById('notice-date').value;
     const file = fileInput.files[0];
@@ -168,7 +168,10 @@ uploadForm.addEventListener('submit', async (e) => {
             body: formData
         });
 
-        if (!response.ok) throw new Error('Server error during operation');
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.details || errorData.error || 'Server error during operation');
+        }
 
         await fetchNotices();
         resetUploadForm();
@@ -188,10 +191,10 @@ function editNotice(id) {
     document.getElementById('notice-title').value = notice.title;
     document.getElementById('notice-date').value = notice.date;
     fileNameDisplay.textContent = 'Keep current file or upload new one';
-    
+
     portalTitle.textContent = 'Modify Notice';
     publishBtn.textContent = 'Update Notice';
-    
+
     toggleTeacherPortal();
 }
 
@@ -228,7 +231,7 @@ async function clearAllNotices() {
 }
 
 // Close modal on outside click
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == teacherPortal) {
         toggleTeacherPortal();
     }
@@ -240,11 +243,11 @@ const formSuccess = document.getElementById('form-success');
 if (admissionForm) {
     admissionForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         // Hide form and show success message
         admissionForm.classList.add('hidden');
         formSuccess.classList.remove('hidden');
-        
+
         // Scroll to success message
         formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
