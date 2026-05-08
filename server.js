@@ -120,8 +120,15 @@ app.delete('/api/notices', (req, res) => {
     res.json({ message: 'All notices cleared' });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+// Serve the landing page for the root route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+    });
+}
 
 module.exports = app;
