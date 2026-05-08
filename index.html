@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. George's Academy | Excellence in Education</title>
+    <meta name="description" content="Welcome to St. George's Academy, where we nurture minds and build futures. Stay updated with our latest school notices and events.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon"><i class="fas fa-graduation-cap"></i></span>
+                <span class="logo-text">St. George's</span>
+            </a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="about.html">About</a>
+                <a href="achievements.html">Achievements</a>
+                <a href="admission.html">Admission</a>
+                <a href="tuition.html">Tuition</a>
+                <a href="#notices">Notice Board</a>
+                <a href="#contact">Contact</a>
+                <button class="btn btn-primary" onclick="toggleTeacherPortal()">Teacher Portal</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="fade-in">Empowering Future <span class="text-gradient">Leaders</span></h1>
+                <p class="fade-in-delayed">Providing a world-class education that fosters innovation, critical thinking, and character development in every student.</p>
+                <div class="hero-cta fade-in-delayed">
+                    <a href="about.html" class="btn btn-secondary">Learn More</a>
+                    <a href="#notices" class="btn btn-primary">View Notices</a>
+                </div>
+            </div>
+            <div class="hero-visual fade-in">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <i class="fas fa-bell"></i>
+                        <span>Latest Update</span>
+                    </div>
+                    <p id="hero-latest-notice">Welcome to the 2026 Academic Year!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="notices" class="notices-section">
+            <div class="section-header">
+                <h2 class="section-title">Notice Board</h2>
+                <p class="section-subtitle">Stay updated with the latest announcements and academic schedules.</p>
+            </div>
+            <div id="notice-container" class="notice-grid">
+                <!-- Notices will be injected here -->
+                <div class="notice-skeleton">Loading notices...</div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>St. George's Academy</h3>
+                <p>Inspiring minds since 1985.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Education Lane, Academic City</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 012-3456</p>
+                <p><i class="fas fa-envelope"></i> info@stgeorges.edu</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 St. George's Academy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Teacher Portal Modal -->
+    <div id="teacher-portal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Teacher Portal</h2>
+                <button class="close-btn" onclick="toggleTeacherPortal()">&times;</button>
+            </div>
+            <div id="login-view" class="portal-view">
+                <p>Please enter your credentials to upload notices.</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter teacher ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">Login</button>
+                    <p class="hint">Hint: Use 'admin' / 'admin' for demo</p>
+                </form>
+            </div>
+            <div id="upload-view" class="portal-view hidden">
+                <h3>Upload New Notice</h3>
+                <form id="upload-form">
+                    <div class="form-group">
+                        <label for="notice-title">Notice Title</label>
+                        <input type="text" id="notice-title" placeholder="e.g. Mid-term Exam Schedule" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notice-date">Date</label>
+                        <input type="date" id="notice-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notice-pdf">Select PDF File</label>
+                        <div class="file-drop-area" id="file-drop-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop or click to upload PDF</p>
+                            <input type="file" id="notice-pdf" accept=".pdf" required>
+                        </div>
+                        <span id="file-name-display" class="file-name"></span>
+                    </div>
+                    <div class="form-actions">
+                        <div class="flex-group">
+                            <button type="button" class="btn btn-ghost" onclick="logout()">Logout</button>
+                            <button type="button" class="btn btn-danger" onclick="clearAllNotices()">Clear All</button>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publish Notice</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
